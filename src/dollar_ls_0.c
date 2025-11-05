@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_ls_0.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:50:33 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 22:56:33 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/05 23:46:29 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_xtnd	*create_g_exit_status_node(int g_exit_status)
 	node->next = NULL;
 	node->og_len = 2;
 	node->len_dif = ft_strlen(status_str) - 2;
-	free(status_str); // added free to avoid memory leak
 	return (node);
 }
 
