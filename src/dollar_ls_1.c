@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_ls_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dt <dt@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:54:13 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/04 23:04:20 by dt               ###   ########.fr       */
+/*   Updated: 2025/11/05 23:15:11 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	free_xtnds(t_xtnd *head)
-{
-	t_xtnd	*tmp;
-
-	while (head)
-	{
-		tmp = head->next;
-		if (head->new)
-			free(head->new);
-		free(head);
-		head = tmp;
-	}
-}
 
 void	dollar_extend_logic(char *input, char *new_input, t_xtnd *xtnds,
 		t_xtnd *head)
@@ -50,7 +36,7 @@ void	dollar_extend_logic(char *input, char *new_input, t_xtnd *xtnds,
 	}
 	new_input[n] = '\0';
 	reset_state_sttc(st);
-	free_xtnds(head);
+	free_xtnds(&head);
 }
 
 // xtnd_node = xtnd_env(input, env); -creates linked list of every vlid $words
@@ -66,7 +52,10 @@ t_xtnd	*crt_xtnd_logic(char *input, t_env **env, t_quote_state *st)
 	if (!xtnd_node->new)
 	{
 		if (*(input) == '?')
+		{
+			free_xtnds(&xtnd_node); // free empty node
 			xtnd_node = crt_xtnd_ex_status(st);
+		}
 		else
 		{
 			xtnd_node->new = ft_strdup("");
@@ -93,6 +82,7 @@ t_xtnd	*pst_q(char *input)
 	node->og_len = len + 3;
 	node->new = crt_nd_new(len, input);
 	node->len_dif = ft_strlen(node->new) - node->og_len;
+	node->next = NULL; // end of list
 	return (node);
 }
 
@@ -112,7 +102,7 @@ char	*dollar_extend(char *input, t_env **env)
 				+ 1));
 	if (!new_input)
 	{
-		free_xtnds(head);
+		free_xtnds(&head);
 		return (ft_strdup(input));
 	}
 	dollar_extend_logic(input, new_input, xtnds, head);

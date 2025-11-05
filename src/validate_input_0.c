@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_input_0.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 00:44:09 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 17:43:26 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/05 23:09:29 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ int	find_sq(char *input, int *signl_q)
 	if (*input != '\'')
 	{
 		*signl_q = 0;
-		/* no closing quote: advance to terminating NUL only */
 		return (i);
 	}
-	/* closing quote found: advance past it */
 	return (i + 1);
 }
 
@@ -47,10 +45,8 @@ int	find_dq(char *input, int *double_q)
 	if (*input != '"')
 	{
 		*double_q = 0;
-		/* no closing double quote: advance to terminating NUL only */
 		return (i);
 	}
-	/* closing double quote found: advance past it */
 	return (i + 1);
 }
 

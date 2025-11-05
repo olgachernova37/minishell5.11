@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   implem_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dt <dt@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 00:00:00 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/04 23:22:44 by dt               ###   ########.fr       */
+/*   Updated: 2025/11/05 23:03:04 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	heredoc_signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_exit_status = 130;
-		// rl_replace_line("", 0);
-		// rl_done = 1;
+		rl_replace_line("", 0);
+		rl_done = 1;
 		write(1, "\n", 1);
 		rl_on_new_line();
 	}

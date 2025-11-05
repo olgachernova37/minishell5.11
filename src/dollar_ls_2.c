@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_ls_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:54:13 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 22:49:09 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/05 22:59:26 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_xtnd	*handle_dollar_expansion(char **input, t_env **env,
 	t_xtnd	*xtnd_node;
 
 	if (**input == '$' && *(*input + 1) && (st->type == '"' || st->type == 0)
-		&& (*(*input + 1) == '?' || !is_delimiter(*(*input + 1))))
+		&& (is_delimiter(*(*input + 1)) || !(is_delimiter(*(*input + 1)))))
 	{
 		xtnd_node = crt_xtnd_logic(*input + 1, env, st);
 		return (xtnd_node);
@@ -51,15 +51,15 @@ static int	process_input_char(char **input, t_env **env, t_xtnd **head)
 	if (xtnd_node)
 	{
 		connect_nodes(head, xtnd_node);
-		return (1);
+		// return (1);
 	}
 	xtnd_node = handle_dollar_quote(input, st);
 	if (xtnd_node)
 	{
 		connect_nodes(head, xtnd_node);
-		return (1);
+		// return (1);
 	}
-	return (0);
+	return (0); //del not needed
 }
 
 t_xtnd	*crt_xtnd_ls(char *input, t_env **env)

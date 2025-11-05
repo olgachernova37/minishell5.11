@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 19:07:50 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/05 23:06:14 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	handle_empty_input(char *input)
 
 static void	process_command_pipeline(char *input, t_env **env, char **env_array)
 {
+	t_cleanup	cleanup;
 	t_input	*words;
 	t_cmnd	*list;
 	char	*extnd;
@@ -72,8 +73,6 @@ static void	process_command_pipeline(char *input, t_env **env, char **env_array)
 	}
 	if (process_all_heredocs_in_pipeline(list) == 0)
 	{
-		t_cleanup	cleanup;
-
 		cleanup.env = env;
 		cleanup.env_array = env_array;
 		cleanup.cmnd_ls = &list;
@@ -133,11 +132,11 @@ static char	*read_line_with_prompt(const char *prompt, int is_tty)
 	return (result);
 }
 
-
 // и обязательно освобождать старый env_array, чтобы не текла память.
 // env_array но потом обязательно обновлять, когда env меняется.
 int	main(int argc, char **argv, char **envp)
 {
+	t_cleanup	cleanup;
 	t_env	*env;
 	char	*input;
 	char	**env_array;
@@ -156,8 +155,6 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, handler_sig_int);
 		if (input == NULL)
 		{
-			t_cleanup	cleanup;
-
 			exit_argv[0] = "exit";
 			exit_argv[1] = NULL;
 			cleanup.env = &env;
@@ -171,8 +168,6 @@ int	main(int argc, char **argv, char **envp)
 		if (handle_empty_input(input))
 			continue ;
 		process_command_pipeline(input, &env, env_array);
-		// for now here but can be probably changed within other free func
-		// free(input); double free can be provocoted
 	}
 	write_history(".minishell_history");
 	free_env_array(env_array);

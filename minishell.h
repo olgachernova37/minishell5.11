@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:31:21 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 21:15:37 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/05 23:19:38 by dtereshc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void				normalize_input_inplace(char *s);
 int					is_shell_space(unsigned char c);
 
 // main_utils.c
-// void				free_list(t_cmnd *list);
 void				print_env(t_env *env);
 void				print_og_env(char **envp);
 void				print_cmnd_ls(t_cmnd *list);
@@ -415,7 +414,6 @@ int					handle_heredoc_exit_conditions(char *line, char *delimiter);
 
 void				free_command_arrays(t_cmnd *cmd);
 void				free_redirections(t_rdrs *rdrs);
-void				free_list(t_cmnd *list);
 int					process_all_heredocs_in_pipeline(t_cmnd *cmnd_list);
 void				cleanup_all_heredocs(t_cmnd *cmnd_list);
 
@@ -430,6 +428,7 @@ void				free_cmnd_ls(t_cmnd **cmnd, t_input **words);
 void				free_env_fields(t_env *env);
 void				free_env(t_env **env);
 void				free_rdrs(t_rdrs *rdrs);
+void	free_xtnds(t_xtnd **xtnds);
 void				free_t_input(t_input **input);
 void				free_argv_type(t_cmnd *cmnd_node);
 void				free_env_array(char **env_array);
