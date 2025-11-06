@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:51:30 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 21:15:00 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:57:42 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	finish_child(t_cmnd **cmnd, int pipes_qntt, pid_t *pids, int i)
 	return (1);
 }
 
-static void	free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup)
+static void	free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup,
+		t_cmnd *keep)
 {
 	t_cmnd	*tmp;
 	t_cmnd	*next;
@@ -37,21 +38,39 @@ static void	free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup)
 	while (tmp)
 	{
 		next = tmp->next;
-		if (tmp->argv)
-			free(tmp->argv);
-		if (tmp->full_argv)
-			free(tmp->full_argv);
-		if (tmp->argv_type)
-			free(tmp->argv_type);
-		if (tmp->rdrs)
-			free_rdrs(tmp->rdrs);
-		free(tmp);
+		if (tmp != keep)
+		{
+			if (tmp->argv)
+				free(tmp->argv);
+			if (tmp->full_argv)
+				free(tmp->full_argv);
+			if (tmp->argv_type)
+				free(tmp->argv_type);
+			if (tmp->rdrs)
+				free_rdrs(tmp->rdrs);
+			free(tmp);
+		}
 		tmp = next;
 	}
 	if (cleanup->words && *cleanup->words)
 		free_t_input(cleanup->words);
 	if (cleanup->raw_input && *cleanup->raw_input)
 		free(*cleanup->raw_input);
+}
+
+static void	free_current_cmnd(t_cmnd *cur_cmnd)
+{
+	if (!cur_cmnd)
+		return ;
+	if (cur_cmnd->argv)
+		free(cur_cmnd->argv);
+	if (cur_cmnd->full_argv)
+		free(cur_cmnd->full_argv);
+	if (cur_cmnd->argv_type)
+		free(cur_cmnd->argv_type);
+	if (cur_cmnd->rdrs)
+		free_rdrs(cur_cmnd->rdrs);
+	free(cur_cmnd);
 }
 
 void	child_logic(t_cmnd **cmnd, t_cmnd *cur_cmnd, t_cleanup *cleanup)
@@ -65,14 +84,14 @@ void	child_logic(t_cmnd **cmnd, t_cmnd *cur_cmnd, t_cleanup *cleanup)
 	close_ends(cmnd);
 	if (implamentation_redir(cur_cmnd))
 	{
-		free_child_structures(cmnd, cleanup);
+		free_child_structures(cmnd, cleanup, NULL);
 		free_env_array(cleanup->env_array);
 		free_env(cleanup->env);
 		exit(1);
 	}
 	if (!cur_cmnd->argv || !cur_cmnd->argv[0])
 	{
-		free_child_structures(cmnd, cleanup);
+		free_child_structures(cmnd, cleanup, NULL);
 		free_env_array(cleanup->env_array);
 		free_env(cleanup->env);
 		exit(0);
@@ -86,13 +105,19 @@ void	child_logic(t_cmnd **cmnd, t_cmnd *cur_cmnd, t_cleanup *cleanup)
 		builtin_cleanup.raw_input = NULL;
 		exit_code = which_buildin_command(cur_cmnd, cleanup->env,
 				cleanup->env_array, &builtin_cleanup);
-		free_child_structures(cmnd, cleanup);
+		free_child_structures(cmnd, cleanup, NULL);
 		free_env_array(cleanup->env_array);
 		free_env(cleanup->env);
 		exit(exit_code);
 	}
 	else
-		execve_child(cur_cmnd, cleanup->env, cleanup->env_array);
+	{
+		exit_code = execve_child(cur_cmnd, cleanup->env, cleanup->env_array);
+		free_child_structures(cmnd, cleanup, NULL);
+		free_env_array(cleanup->env_array);
+		free_env(cleanup->env);
+		exit(exit_code);
+	}
 }
 
 int	creat_child(int pipes_qntt, t_cmnd **cmnd, t_cleanup *cleanup)

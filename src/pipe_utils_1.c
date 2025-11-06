@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 13:29:26 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 19:50:46 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:57:46 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,12 @@ int	execve_child(t_cmnd *cmnd, t_env **my_env, char **array_env)
 		execve(path, cmnd->argv, array_env);
 		perror("execve");
 		free(path);
-		free_env_array(array_env);
-		free_env(my_env);
-		exit(127);
+		return (127);
 	}
 	else
 	{
 		printf("bash: %s: command not found\n", cmnd->argv[0]);
-		free_env_array(array_env);
-		free_env(my_env);
-		exit(127);
+		return (127);
 	}
 }
 
