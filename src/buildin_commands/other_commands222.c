@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   other_commands222.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/15 19:07:30 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/06 13:11:09 by olcherno         ###   ########.fr       */
+/*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
+/*   Updated: 2025/11/06 13:16:08 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handler_sig_int(int sig)
+int	other_commands_implementation(char **input, t_env **env)
 {
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		g_exit_status = 130;
-		rl_redisplay();
-	}
-}
-
-void	handler_sig_quit(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		g_exit_status = 131;
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-int	exit_func(void)
-{
-	return (EXIT_SUCCESS);
-}
-
-void	init_signals(void)
-{
-	signal(SIGINT, handler_sig_int);
-	signal(SIGQUIT, handler_sig_quit);
+	if (!input || !input[0])
+		return (0);
+	if (ft_strchr(input[0], '/'))
+		return (handle_direct_path_command(input, env));
+	else
+		return (handle_path_command(input, env));
 }

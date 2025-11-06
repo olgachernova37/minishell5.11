@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 15:10:44 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 19:07:50 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:20 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	which_buildin_command(t_cmnd *cmnd, t_env **my_env, char **env_array,
 		return (exit_command_implementation(cmnd->argv, cleanup));
 	else if (match_buildin(cmnd->argv[0], "env"))
 	{
-		if(cmnd->argv[1] != NULL)
+		if (cmnd->argv[1] != NULL)
 		{
 			ft_putstr_fd("bash: env: ", 2);
 			ft_putstr_fd(cmnd->argv[1], 2);

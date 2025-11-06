@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 16:33:27 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:09:05 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ size_t	joined_array_len(char **str)
 	return (len);
 }
 
-void	print_array_error(char **str) ///////NEW
+void	print_array_error(char **str)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    fprintf(stderr, "minishell: export: '");
-    while (str[i])
-    {
-        fprintf(stderr, "%s", str[i]);
-        if (str[i + 1] != NULL)
-        {
-            fprintf(stderr, " ");
-        }
-        i++;
-    }
-    fprintf(stderr, "': not a valid identifier\n");
+	i = 0;
+	fprintf(stderr, "minishell: export: '");
+	while (str[i])
+	{
+		fprintf(stderr, "%s", str[i]);
+		if (str[i + 1] != NULL)
+		{
+			fprintf(stderr, " ");
+		}
+		i++;
+	}
+	fprintf(stderr, "': not a valid identifier\n");
 }
 
 int	check_export_form(const char *input)

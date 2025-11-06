@@ -6,13 +6,13 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 13:29:26 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/06 12:57:46 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:38:40 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int (*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2]
+int	(*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2]
 {
 	int	(*fds)[2];
 	int	pipes;
@@ -28,13 +28,12 @@ int (*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2]
 		*pipes_qntt = pipes;
 	if (pipes <= 0)
 		return (NULL);
-	fds = malloc(sizeof(int [2]) * pipes);
+	fds = malloc(sizeof (int[2]) * pipes);
 	if (!fds)
 		return (NULL);
 	piping(pipes, fds);
 	return (fds);
 }
-
 
 void	piping(int pipes, int (*fds)[2])
 {

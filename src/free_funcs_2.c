@@ -1,45 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   free_funcs_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/15 19:07:30 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/06 13:11:09 by olcherno         ###   ########.fr       */
+/*   Created: 2025/11/04 13:28:29 by dt                #+#    #+#             */
+/*   Updated: 2025/11/06 13:41:13 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handler_sig_int(int sig)
+void	free_env_array(char **env_array)
 {
-	if (sig == SIGINT)
+	int	i;
+
+	if (!env_array)
+		return ;
+	i = 0;
+	while (env_array[i])
 	{
-		printf("\n");
-		rl_on_new_line();
-		g_exit_status = 130;
-		rl_redisplay();
+		free(env_array[i]);
+		i++;
 	}
-}
-
-void	handler_sig_quit(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		g_exit_status = 131;
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-int	exit_func(void)
-{
-	return (EXIT_SUCCESS);
-}
-
-void	init_signals(void)
-{
-	signal(SIGINT, handler_sig_int);
-	signal(SIGQUIT, handler_sig_quit);
+	free(env_array);
 }

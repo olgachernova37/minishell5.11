@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dt <dt@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:11:33 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/04 18:31:25 by dt               ###   ########.fr       */
+/*   Updated: 2025/11/06 13:13:12 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// every uninquoted qutes should be skipped
-// probably should be added free(words) if (words != NULL)
 t_input	*do_node(t_len_type_qts *ltq, char *input)
 {
 	int				i;
@@ -28,7 +26,7 @@ t_input	*do_node(t_len_type_qts *ltq, char *input)
 		return (NULL);
 	res = malloc(sizeof(char) * (ltq->len - ltq->qts + 1));
 	if (res == NULL)
-		return (do_node_clear(new_node)); // free() check afterall
+		return (do_node_clear(new_node));
 	while (input && i < (ltq->len - ltq->qts))
 	{
 		state = dtct_inquotes(*input);

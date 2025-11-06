@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/03 20:42:27 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:49 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**input_with_null_terminator(char **input)
 	new_input[i + 1] = NULL;
 	return (new_input);
 }
-//unused wtf??
+
 char	**init_path_components(t_env **env)
 {
 	char	**splited_path;

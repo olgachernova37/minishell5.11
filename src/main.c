@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 23:06:14 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:31:40 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			g_exit_status = 0;
 
-static int	handle_empty_input(char *input)
+int	handle_empty_input(char *input)
 {
 	if (!input)
 		return (1);
@@ -29,12 +29,12 @@ static int	handle_empty_input(char *input)
 	return (0);
 }
 
-static void	process_command_pipeline(char *input, t_env **env, char **env_array)
+void	process_command_pipeline(char *input, t_env **env, char **env_array)
 {
 	t_cleanup	cleanup;
-	t_input	*words;
-	t_cmnd	*list;
-	char	*extnd;
+	t_input		*words;
+	t_cmnd		*list;
+	char		*extnd;
 
 	words = NULL;
 	if (!input)
@@ -85,7 +85,7 @@ static void	process_command_pipeline(char *input, t_env **env, char **env_array)
 	free(input);
 }
 
-static void	initialize_shell(t_env **env, char ***env_array, char **envp)
+void	initialize_shell(t_env **env, char ***env_array, char **envp)
 {
 	if (!envp)
 	{
@@ -108,7 +108,7 @@ static void	initialize_shell(t_env **env, char ***env_array, char **envp)
 	init_signals();
 }
 
-static char	*read_line_with_prompt(const char *prompt, int is_tty)
+char	*read_line_with_prompt(const char *prompt, int is_tty)
 {
 	char	*line;
 	char	*result;
@@ -132,16 +132,14 @@ static char	*read_line_with_prompt(const char *prompt, int is_tty)
 	return (result);
 }
 
-// и обязательно освобождать старый env_array, чтобы не текла память.
-// env_array но потом обязательно обновлять, когда env меняется.
 int	main(int argc, char **argv, char **envp)
 {
 	t_cleanup	cleanup;
-	t_env	*env;
-	char	*input;
-	char	**env_array;
-	char	*exit_argv[2];
-	int		is_tty;
+	t_env		*env;
+	char		*input;
+	char		**env_array;
+	char		*exit_argv[2];
+	int			is_tty;
 
 	(void)argc;
 	(void)argv;

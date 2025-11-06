@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:26:59 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 16:37:15 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:09:51 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	echo_command_implementation(t_cmnd **cmnd_ls)
 	}
 	while ((*cmnd_ls)->argv[y] != NULL)
 	{
-		write(STDOUT_FILENO, (*cmnd_ls)->argv[y], ft_strlen((*cmnd_ls)->argv[y]));
+		write(STDOUT_FILENO, (*cmnd_ls)->argv[y],
+			ft_strlen((*cmnd_ls)->argv[y]));
 		if ((*cmnd_ls)->argv[y + 1])
 			write(STDOUT_FILENO, " ", 1);
 		y++;

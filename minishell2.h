@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell2.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:31:21 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/03 20:11:09 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:32 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ t_cmnd							*what_cmnd_shrt_0(t_cmnd *cmnd,
 
 t_env							*create_env_node(char *key, char *input);
 
-int				(*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2];
+int (*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2];
 
 #endif

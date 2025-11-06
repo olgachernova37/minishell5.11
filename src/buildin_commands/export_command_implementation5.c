@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 16:30:35 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:10:23 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,25 @@ int	two_var(char **input, t_env **env)
 	return (result2);
 }
 
-int is_minus_in_export_name(char **input)//new i v header nado vstavyt
+int	is_minus_in_export_name(char **input)
 {
-    int		i;
-    char	*s;
+	int		i;
+	char	*s;
 
-    if (!input || !input[1])
-        return (0);
-    s = input[1];
-    i = 0;
-    /* scan name part until '=' (or end) and reject any '-' */
-    while (s[i] && s[i] != '=')
-    {
-        if (s[i] == '-')
-            return (1);
-        i++;
-    }
-    return (0);
+	if (!input || !input[1])
+		return (0);
+	s = input[1];
+	i = 0;
+	while (s[i] && s[i] != '=')
+	{
+		if (s[i] == '-')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-
-int	parsing_export(char **input, t_env **env) ///new
+int	parsing_export(char **input, t_env **env)
 {
 	if ((input[1][0] >= '0' && input[1][0] <= '9') || ft_strchr(input[1], '+')
 		|| input[1][0] == '=' || is_minus_in_export_name(input))

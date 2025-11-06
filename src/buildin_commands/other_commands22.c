@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 16:27:42 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:12:02 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	handle_child_exit(int status)
 	return (1);
 }
 
-void	child_exec(char *path_with_command, char **new_input, char **env_array) //new
+void	child_exec(char *path_with_command, char **new_input, char **env_array)
 {
 	setup_child_signals();
-	execve(path_with_command, new_input, env_array); //new
+	execve(path_with_command, new_input, env_array);
 	perror("execve");
 	free_split(new_input);
 	exit(127);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_ls_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:54:13 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/05 23:15:11 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:12:26 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ void	dollar_extend_logic(char *input, char *new_input, t_xtnd *xtnds,
 	free_xtnds(&head);
 }
 
-// xtnd_node = xtnd_env(input, env); -creates linked list of every vlid $words
-// returns empty node (!xtnd_node->new) == TRUE if $ENV note founded
-//	or filled node with t_xtnd struct info
 t_xtnd	*crt_xtnd_logic(char *input, t_env **env, t_quote_state *st)
 {
 	t_xtnd	*xtnd_node;
@@ -53,7 +50,7 @@ t_xtnd	*crt_xtnd_logic(char *input, t_env **env, t_quote_state *st)
 	{
 		if (*(input) == '?')
 		{
-			free_xtnds(&xtnd_node); // free empty node
+			free_xtnds(&xtnd_node);
 			xtnd_node = crt_xtnd_ex_status(st);
 		}
 		else
@@ -82,7 +79,7 @@ t_xtnd	*pst_q(char *input)
 	node->og_len = len + 3;
 	node->new = crt_nd_new(len, input);
 	node->len_dif = ft_strlen(node->new) - node->og_len;
-	node->next = NULL; // end of list
+	node->next = NULL;
 	return (node);
 }
 

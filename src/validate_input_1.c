@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_input_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:48 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/03 20:20:46 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:11:26 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	has_double_and_or_pipe(char *input)
 		else if (*input == 39 && in_q == 2)
 			in_q = 0;
 		if (!in_q && (((*input == 38 && *(input + 1) == 38)) || ((*input == 124)
-				&& *(input + 1) == 124)))
+					&& *(input + 1) == 124)))
 			return (1);
 		input++;
 	}

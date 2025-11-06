@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtereshc <dtereshc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:31:21 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 23:19:38 by dtereshc         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:33:58 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,8 @@ void				print_my_env(t_env *env);
 // Updated function declarations
 int					export_command_implementation(char **input, t_env **env);
 int					unset_command_implementation(t_env **env, char **input);
-int					exit_command_implementation(char **input, t_cleanup *cleanup);
+int					exit_command_implementation(char **input,
+						t_cleanup *cleanup);
 int					other_commands_implementation(char **input, t_env **env);
 
 // pipes.c
@@ -428,9 +429,24 @@ void				free_cmnd_ls(t_cmnd **cmnd, t_input **words);
 void				free_env_fields(t_env *env);
 void				free_env(t_env **env);
 void				free_rdrs(t_rdrs *rdrs);
-void	free_xtnds(t_xtnd **xtnds);
+void				free_xtnds(t_xtnd **xtnds);
 void				free_t_input(t_input **input);
 void				free_argv_type(t_cmnd *cmnd_node);
 void				free_env_array(char **env_array);
+int					other_commands_implementation(char **input, t_env **env);
+void				child_logic(t_cmnd **cmnd, t_cmnd *cur_cmnd,
+						t_cleanup *cleanup);
+void				free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup,
+						t_cmnd *keep);
+void				free_current_cmnd(t_cmnd *cur_cmnd);
+char				*read_line_with_prompt(const char *prompt, int is_tty);
+void				initialize_shell(t_env **env, char ***env_array,
+						char **envp);
+void				process_command_pipeline(char *input, t_env **env,
+						char **env_array);
+int					handle_empty_input(char *input);
+void				free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup,
+						t_cmnd *keep);
+void	cleanup_and_exit(t_cmnd **cmnd, t_cleanup *cleanup, int exit_code);
 
 #endif
