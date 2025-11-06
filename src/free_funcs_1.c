@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 13:28:29 by dt                #+#    #+#             */
-/*   Updated: 2025/11/06 13:40:49 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:43:18 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,3 @@ void	free_argv_type(t_cmnd *cmnd_node)
 	free(cmnd_node->argv_type);
 	cmnd_node->argv_type = NULL;
 }
-

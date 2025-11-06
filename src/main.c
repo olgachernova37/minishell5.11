@@ -6,13 +6,11 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/06 13:31:40 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:52:12 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int			g_exit_status = 0;
 
 int	handle_empty_input(char *input)
 {
@@ -27,62 +25,6 @@ int	handle_empty_input(char *input)
 		return (1);
 	}
 	return (0);
-}
-
-void	process_command_pipeline(char *input, t_env **env, char **env_array)
-{
-	t_cleanup	cleanup;
-	t_input		*words;
-	t_cmnd		*list;
-	char		*extnd;
-
-	words = NULL;
-	if (!input)
-		return ;
-	extnd = dollar_extend(input, env);
-	if (!extnd)
-	{
-		g_exit_status = 1;
-		write(2, "minishell: dollar_extend alloc failed\n", 38);
-		free(input);
-		return ;
-	}
-	free(input);
-	input = extnd;
-	if (!input || !*input)
-	{
-		free(input);
-		g_exit_status = 0;
-		return ;
-	}
-	words = tokenize(words, input);
-	if (!words)
-	{
-		free(input);
-		g_exit_status = 0;
-		return ;
-	}
-	list = crt_cmnd_ls(words);
-	if (!list)
-	{
-		g_exit_status = 1;
-		write(2, "minishell: crt_cmnd_ls error\n", 31);
-		free(input);
-		free_t_input(&words);
-		return ;
-	}
-	if (process_all_heredocs_in_pipeline(list) == 0)
-	{
-		cleanup.env = env;
-		cleanup.env_array = env_array;
-		cleanup.cmnd_ls = &list;
-		cleanup.words = &words;
-		cleanup.raw_input = &input;
-		what_command(&list, env, env_array, &cleanup);
-	}
-	cleanup_all_heredocs(list);
-	free_cmnd_ls(&list, &words);
-	free(input);
 }
 
 void	initialize_shell(t_env **env, char ***env_array, char **envp)
@@ -130,45 +72,4 @@ char	*read_line_with_prompt(const char *prompt, int is_tty)
 	result = ft_strdup(line);
 	free(line);
 	return (result);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_cleanup	cleanup;
-	t_env		*env;
-	char		*input;
-	char		**env_array;
-	char		*exit_argv[2];
-	int			is_tty;
-
-	(void)argc;
-	(void)argv;
-	is_tty = isatty(STDIN_FILENO);
-	initialize_shell(&env, &env_array, envp);
-	if (!is_tty)
-		write(1, "minishell$ \n", 12);
-	while (42)
-	{
-		input = read_line_with_prompt("minishell$ ", is_tty);
-		signal(SIGINT, handler_sig_int);
-		if (input == NULL)
-		{
-			exit_argv[0] = "exit";
-			exit_argv[1] = NULL;
-			cleanup.env = &env;
-			cleanup.env_array = env_array;
-			cleanup.cmnd_ls = NULL;
-			cleanup.words = NULL;
-			cleanup.raw_input = NULL;
-			exit_command_implementation(exit_argv, &cleanup);
-			break ;
-		}
-		if (handle_empty_input(input))
-			continue ;
-		process_command_pipeline(input, &env, env_array);
-	}
-	write_history(".minishell_history");
-	free_env_array(env_array);
-	free_env(&env);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:31:21 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/06 13:33:58 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:39:12 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef enum e_tokens
 // cmnds structure
 typedef struct s_cmnd
 {
-	char **argv;              // do_cmnd_array
-	char **full_argv;         // do_full_cmnd_array
-	t_token_type **argv_type; // do_cmnd_array_type
-	struct s_rdrs *rdrs;      // free func is done
+	char			**argv;
+	char			**full_argv;
+	t_token_type	**argv_type;
+	struct s_rdrs	*rdrs;
 	int				fds[2];
 	bool			appnd;
 	bool			heredoc;
@@ -134,6 +134,13 @@ typedef struct s_redir_context
 	int				*is_newline;
 	int				in_q;
 }					t_redir_context;
+
+typedef struct s_pipeline_data
+{
+	t_input			*words;
+	t_cmnd			*list;
+	char			*input;
+}					t_pipeline_data;
 
 // tokenizer_utils_2.c
 void				normalize_input_inplace(char *s);
@@ -314,6 +321,8 @@ int					one_var(char *input, t_env **env);
 int					is_two_var(char **input);
 int					two_var(char **input, t_env **env);
 int					parsing_export(char **input, t_env **env);
+int					is_append_export(char *input);
+int					append_to_env(t_env *tmp, char *key, char *input);
 
 // env
 t_env				*env_init(char **envp);
@@ -447,6 +456,13 @@ void				process_command_pipeline(char *input, t_env **env,
 int					handle_empty_input(char *input);
 void				free_child_structures(t_cmnd **cmnd, t_cleanup *cleanup,
 						t_cmnd *keep);
-void	cleanup_and_exit(t_cmnd **cmnd, t_cleanup *cleanup, int exit_code);
-
+void				cleanup_and_exit(t_cmnd **cmnd, t_cleanup *cleanup,
+						int exit_code);
+void				process_command_pipeline(char *input, t_env **env,
+						char **env_array);
+void				setup_exit_cleanup(t_cleanup *cleanup, t_env **env,
+						char **env_array);
+int					add_new_node_ex(t_env **env, t_env *tmp, char *key,
+						char *input);
+int					one_var(char *input, t_env **env);
 #endif

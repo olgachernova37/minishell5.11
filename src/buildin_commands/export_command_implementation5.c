@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/06 13:10:23 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:40:33 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,25 @@ int	is_minus_in_export_name(char **input)
 	return (0);
 }
 
+int	has_append_operator(char *str)
+{
+	char	*plus;
+
+	plus = ft_strchr(str, '+');
+	if (plus && *(plus + 1) == '=')
+		return (1);
+	return (0);
+}
+
 int	parsing_export(char **input, t_env **env)
 {
-	if ((input[1][0] >= '0' && input[1][0] <= '9') || ft_strchr(input[1], '+')
+	if ((input[1][0] >= '0' && input[1][0] <= '9')
 		|| input[1][0] == '=' || is_minus_in_export_name(input))
+	{
+		print_array_error(input);
+		return (1);
+	}
+	if (ft_strchr(input[1], '+') && !has_append_operator(input[1]))
 	{
 		print_array_error(input);
 		return (1);
@@ -69,22 +84,6 @@ int	parsing_export(char **input, t_env **env)
 	else
 	{
 		return (one_var(input[1], env));
-	}
-	return (0);
-}
-
-int	export_command_implementation(char **input, t_env **env)
-{
-	int	i;
-
-	i = 1;
-	if (input[i] == NULL)
-	{
-		return (only_export(*env));
-	}
-	else if ((input[i] != NULL))
-	{
-		return (parsing_export(input, env));
 	}
 	return (0);
 }

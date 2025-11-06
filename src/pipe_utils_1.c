@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 13:29:26 by dtereshc          #+#    #+#             */
-/*   Updated: 2025/11/06 13:38:40 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:55:41 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	(*allocate_fds(t_cmnd **cmnd, int *pipes_qntt))[2]
 		*pipes_qntt = pipes;
 	if (pipes <= 0)
 		return (NULL);
-	fds = malloc(sizeof (int[2]) * pipes);
+	fds = malloc(sizeof (int [2]) * pipes);
 	if (!fds)
 		return (NULL);
 	piping(pipes, fds);

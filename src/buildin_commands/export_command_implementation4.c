@@ -6,19 +6,39 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/01 20:21:57 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:39:28 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	append_to_env(t_env *tmp, char *key, char *input)
+{
+	char	*new_value;
+	char	*append_value;
+
+	append_value = input_parse_value_export(input);
+	new_value = ft_strjoin(tmp->value, append_value);
+	if (!new_value)
+	{
+		free(key);
+		return (1);
+	}
+	free(tmp->value);
+	tmp->value = new_value;
+	free(key);
+	return (0);
+}
+
 int	var_and_value(char *input, t_env **env)
 {
 	t_env	*tmp;
 	char	*key;
+	int		is_append;
 
 	if (!env)
 		return (1);
+	is_append = is_append_export(input);
 	key = input_parse_key_export(input);
 	if (!key)
 		return (1);
@@ -26,7 +46,11 @@ int	var_and_value(char *input, t_env **env)
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
+		{
+			if (is_append)
+				return (append_to_env(tmp, key, input));
 			return (update_existing_env(tmp, key, input));
+		}
 		if (tmp->next == NULL)
 			break ;
 		tmp = tmp->next;
@@ -83,25 +107,5 @@ int	var_and_equal(char *input, t_env **env)
 		*env = new_node;
 	else
 		tmp->next = new_node;
-	return (0);
-}
-
-int	one_var(char *input, t_env **env)
-{
-	int	form;
-
-	form = check_export_form(input);
-	if (form == 0)
-	{
-		return (only_var(input, env));
-	}
-	else if (form == 1)
-	{
-		return (var_and_equal(input, env));
-	}
-	else if (form == 2)
-	{
-		return (var_and_value(input, env));
-	}
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_command_implementation.c                    :+:      :+:    :+:   */
+/*   export_command_implementation3.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dt <dt@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/10/07 23:38:50 by dt               ###   ########.fr       */
+/*   Updated: 2025/11/06 14:36:10 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 char	*input_parse_key_export(char *input)
 {
 	char	*eq;
+	char	*plus;
 
+	plus = ft_strchr(input, '+');
 	eq = ft_strchr(input, '=');
+	if (plus && plus + 1 == eq)
+		return (ft_substr(input, 0, plus - input));
 	if (!eq)
 		return (ft_strdup(input));
 	return (ft_substr(input, 0, eq - input));
@@ -30,6 +34,18 @@ char	*input_parse_value_export(char *input)
 	if (!eq)
 		return (NULL);
 	return (eq + 1);
+}
+
+int	is_append_export(char *input)
+{
+	char	*plus;
+	char	*eq;
+
+	plus = ft_strchr(input, '+');
+	eq = ft_strchr(input, '=');
+	if (plus && eq && plus + 1 == eq)
+		return (1);
+	return (0);
 }
 
 t_env	*create_env_node(char *key, char *input)
@@ -53,19 +69,5 @@ int	update_existing_env(t_env *tmp, char *key, char *input)
 	free(tmp->value);
 	tmp->value = ft_strdup(input_parse_value_export(input));
 	free(key);
-	return (0);
-}
-
-int	add_new_node_ex(t_env **env, t_env *tmp, char *key, char *input)
-{
-	t_env	*new_node;
-
-	new_node = create_env_node(key, input);
-	if (!new_node)
-		return (1);
-	if (!*env)
-		*env = new_node;
-	else
-		tmp->next = new_node;
 	return (0);
 }

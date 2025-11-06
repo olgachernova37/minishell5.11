@@ -1,0 +1,283 @@
+# EXPORT TEST CASES FOR MINISHELL
+# Test various export scenarios to match bash behavior
+
+# ===== BASIC EXPORT TESTS =====
+# 1. Export without arguments (should print all exported variables)
+export
+
+# 2. Export new variable with value
+export VAR1=hello
+echo $VAR1
+
+# 3. Export multiple variables at once
+export VAR2=world VAR3=test
+echo $VAR2 $VAR3
+
+# 4. Export variable without value (declares but doesn't set)
+export VAR4
+echo $VAR4
+
+# 5. Export with quotes
+export VAR5="hello world"
+echo $VAR5
+
+# 6. Export with single quotes
+export VAR6='single quotes'
+echo $VAR6
+
+# 7. Export with empty string
+export VAR7=""
+echo $VAR7
+
+# 8. Export with spaces in value
+export VAR8="value with spaces"
+echo $VAR8
+
+# ===== INVALID IDENTIFIER TESTS =====
+# 9. Export with invalid identifier (starts with digit)
+export 1VAR=value
+
+# 10. Export with invalid identifier (contains hyphen)
+export VAR-NAME=value
+
+# 11. Export with invalid identifier (contains special chars)
+export VAR@NAME=value
+
+# 12. Export with equals sign only
+export =
+
+# 13. Export with equals at start
+export =value
+
+# ===== OVERWRITE TESTS =====
+# 14. Export existing variable (overwrite)
+export PATH=/new/path
+echo $PATH
+
+# 15. Export append doesn't work (bash doesn't support +=)
+export VAR9=first
+export VAR9=second
+echo $VAR9
+
+# ===== COMPLEX VALUE TESTS =====
+# 16. Export with dollar sign expansion
+export VAR10=$HOME
+echo $VAR10
+
+# 17. Export with multiple equals signs
+export VAR11=a=b=c
+echo $VAR11
+
+# 18. Export with special characters in value
+export VAR12="!@#$%^&*()"
+echo $VAR12
+
+# 19. Export with escaped characters
+export VAR13="line1\nline2"
+echo $VAR13
+
+# 20. Export with path-like value
+export VAR14=/usr/bin:/usr/local/bin
+echo $VAR14
+
+# ===== VARIABLE NAME TESTS =====
+# 21. Export with underscore in name
+export MY_VAR=test
+echo $MY_VAR
+
+# 22. Export with numbers after letters
+export VAR123=test
+echo $VAR123
+
+# 23. Export with all caps
+export ALLCAPS=test
+echo $ALLCAPS
+
+# 24. Export with mixed case
+export MixedCase=test
+echo $MixedCase
+
+# 25. Export single letter variable
+export A=test
+echo $A
+
+# ===== COMBINATION WITH OTHER COMMANDS =====
+# 26. Export then use in echo
+export MYPATH=/tmp
+echo $MYPATH
+
+# 27. Export then use in cd
+export CDPATH=/tmp
+cd $CDPATH
+
+# 28. Export then unset
+export TEMP=value
+echo $TEMP
+unset TEMP
+echo $TEMP
+
+# 29. Export in subshell (shouldn't affect parent)
+export PARENT=parent
+(export CHILD=child; echo $CHILD)
+echo $CHILD
+
+# ===== EDGE CASES =====
+# 30. Export with no name
+export
+
+# 31. Export with just spaces
+export    
+
+# 32. Export multiple with one invalid
+export VALID1=ok 123INVALID=bad VALID2=ok
+echo $VALID1 $VALID2
+
+# 33. Export with concatenated values
+export VAR20=hello VAR21=world VAR22=$VAR20$VAR21
+echo $VAR22
+
+# 34. Export with $? (exit status)
+ls /nonexistent 2>/dev/null
+export EXITCODE=$?
+echo $EXITCODE
+
+# 35. Export empty variable then assign
+export EMPTY
+export EMPTY=notempty
+echo $EMPTY
+
+# ===== EXPORT WITH QUOTES EDGE CASES =====
+# 36. Export with mixed quotes
+export VAR30="outer 'inner' outer"
+echo $VAR30
+
+# 37. Export with escaped quotes
+export VAR31="say \"hello\""
+echo $VAR31
+
+# 38. Export with unclosed quotes (should error)
+export VAR32="unclosed
+
+# 39. Export with quotes in variable name (should error)
+export "VAR33"=value
+
+# 40. Export with empty quotes
+export VAR34=''
+echo $VAR34
+
+# ===== EXISTING VARIABLE MODIFICATION =====
+# 41. Change HOME
+export HOME=/tmp
+echo $HOME
+cd
+pwd
+
+# 42. Change PWD (shouldn't actually change directory)
+export PWD=/usr
+pwd
+echo $PWD
+
+# 43. Change OLDPWD
+export OLDPWD=/tmp
+cd -
+
+# 44. Change USER
+export USER=testuser
+echo $USER
+
+# 45. Unset and re-export PATH
+unset PATH
+export PATH=/bin:/usr/bin
+echo $PATH
+
+# ===== MULTIPLE EXPORTS IN ONE LINE =====
+# 46. Multiple valid exports
+export A1=1 A2=2 A3=3
+echo $A1 $A2 $A3
+
+# 47. Mix of with and without values
+export B1=value B2 B3=another
+echo $B1 $B2 $B3
+
+# 48. Multiple exports with spaces
+export    C1=1    C2=2    C3=3
+echo $C1 $C2 $C3
+
+# ===== EXPORT AND ENV =====
+# 49. Export and check with env
+export TESTVAR=visible
+env | grep TESTVAR
+
+# 50. Variable without export shouldn't appear in env
+LOCALVAR=notvisible
+env | grep LOCALVAR
+
+# ===== EXIT STATUS TESTS =====
+# 51. Valid export should return 0
+export VALID=yes
+echo $?
+
+# 52. Invalid export should return 1
+export 1INVALID=no
+echo $?
+
+# 53. Multiple exports with one invalid
+export OK1=yes 2BAD=no OK2=yes
+echo $?
+
+# ===== SPECIAL SHELL VARIABLES =====
+# 54. Try to export $? (should not work as expected)
+export STATUS=$?
+echo $STATUS
+
+# 55. Export with $$ (process ID)
+export PID=$$
+echo $PID
+
+# 56. Export with $0 (shell name)
+export SHELL_NAME=$0
+echo $SHELL_NAME
+
+# ===== NUMERIC VALUES =====
+# 57. Export with numeric value
+export NUM=42
+echo $NUM
+
+# 58. Export with negative number
+export NEG=-42
+echo $NEG
+
+# 59. Export with decimal (treated as string)
+export DEC=3.14
+echo $DEC
+
+# 60. Export with leading zeros
+export ZERO=007
+echo $ZERO
+
+# ===== WHITESPACE HANDLING =====
+# 61. Export with tabs
+export	TAB=value
+echo $TAB
+
+# 62. Export with value containing tabs
+export VTAB="value	with	tabs"
+echo $VTAB
+
+# 63. Export with newlines in value
+export VNEW="line1
+line2"
+echo $VNEW
+
+# ===== READONLY CONSIDERATION =====
+# 64. Export after declaring readonly (if readonly is implemented)
+# readonly RO=readonly
+# export RO=changed
+
+# ===== CLEANUP =====
+# 65. Unset all test variables
+unset VAR1 VAR2 VAR3 VAR4 VAR5 VAR6 VAR7 VAR8 VAR9 VAR10
+unset VAR11 VAR12 VAR13 VAR14 VAR20 VAR21 VAR22 VAR30 VAR31 VAR34
+unset MY_VAR VAR123 ALLCAPS MixedCase A MYPATH TEMP
+unset VALID1 VALID2 EMPTY EXITCODE A1 A2 A3 B1 B2 B3 C1 C2 C3
+unset TESTVAR STATUS PID SHELL_NAME NUM NEG DEC ZERO TAB VTAB

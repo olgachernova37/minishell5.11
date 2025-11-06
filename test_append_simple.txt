@@ -1,0 +1,9 @@
+export VAR=hello
+echo $VAR
+export VAR+=world
+echo $VAR
+export PATH2=/bin
+echo $PATH2
+export PATH2+=:/usr/bin
+echo $PATH2
+exit
