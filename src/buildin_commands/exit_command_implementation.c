@@ -6,13 +6,13 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 23:50:50 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/05 19:07:50 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:08:48 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// fprintf("exit: %s: numeric argument required\n", arg);
+// ft_fprintf("exit: %s: numeric argument required\n", arg);
 // Note: This function doesn't free memory because it's called from
 // parse_and_validate_exit_arg which is called from exit_command_implementation
 // The parent function will handle cleanup if needed
@@ -62,7 +62,7 @@ int	exit_command_implementation(char **input, t_cleanup *cleanup)
 		val = parse_and_validate_exit_arg(input[1], cleanup);
 		if (input[2])
 		{
-			fprintf(stderr, "exit: too many arguments\n");
+			ft_fprintf(STDERR_FD, "exit: too many arguments\n");
 			g_exit_status = 1;
 			return (1);
 		}

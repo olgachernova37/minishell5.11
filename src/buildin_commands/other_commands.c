@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:30:53 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/06 13:11:49 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:00:56 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**input_with_null_terminator(char **input)
 	while (input[i])
 		i++;
 	new_input = malloc(sizeof(char *) * (i + 2));
+	if (!new_input)
+		return (NULL);
 	i = 0;
 	while (input[i])
 	{

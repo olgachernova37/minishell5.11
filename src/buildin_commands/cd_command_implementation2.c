@@ -6,7 +6,7 @@
 /*   By: olcherno <olcherno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 20:42:50 by olcherno          #+#    #+#             */
-/*   Updated: 2025/11/06 13:07:12 by olcherno         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:08:49 by olcherno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	cd_command_implementation(char **input, t_env *env)
 	}
 	else
 	{
-		fprintf(stderr, "cd: too many arguments\n");
+		ft_fprintf(STDERR_FD, "cd: too many arguments\n");
 		return (1);
 	}
 	return (0);
